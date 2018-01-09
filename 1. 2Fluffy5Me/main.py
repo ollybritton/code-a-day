@@ -159,6 +159,8 @@ def intro():
     
     
 def main():
+    clear()
+    
     r = Random()
     cat =  Creature(r.name(), r.mood(), r.health(), r.personality())
     
@@ -287,58 +289,276 @@ def main():
             
             print("")
             
-            activity_number = input("What activity would you like to perform (type the number)? ").lower()
+            activity_number = int(input("What activity would you like to perform (type the number)? ").lower())
             
             if activity_number == 1:
-                pass
+                # Pet
+                curr = activities[activity_number - 1]
+                
+                print("You have chosen: Petting")
+                print("(Press enter to continue) ", end = "")
+                input()
+                print("")
+                
+                luck = r.integer(0, 10)
+                modifier = 0
+                
+                if (not curr in known_hates) and (not curr in known_hates) and (not curr in known_hates):
+                    # FIRST TIME BONUS WOO
+                    modifier += 1
+                
+                if curr in cat.hates and (not curr in known_hates):
+                    # Is hated, but doesn't know it.
+                    known_hates.append(curr)
+                    
+                    phrases = ["Straight away, you realise {} hates this.", "All of a sudden, you realise this was a rubbish idea.", "As soon as you start, you notice a sudden shift in {} liking toward you. In a bad way. A vey bad way.", "Huh. {} hates this.", "You get a sudden scowl from {}."]
+                    
+                    print(r.choice(phrases).format(cat.name))
+                    
+                    modifier -= r.integer(1, 2)
+                    
+                elif curr in cat.hates and curr in known_hates:
+                    # Is hated, and totally knows it.
+                    phrases = ["You already knew {} hated this. You horrible human being.", "You horrible, horrible human being.", "Forcing you cat to do something it doesn't like? You horrible person."]
+                    
+                    print(r.choice(phrases).format(cat.name))
+                    
+                    modifier -= 2
+                    
+                elif curr in cat.likes and (not curr in known_likes):
+                    # Is liked, but doesn't know it.
+                    known_likes.append(curr)
+                    
+                    phrases = ["This seems to bring {} joy like no other activity you've seen before.", "This is like heaven for {}. They really like you now."]
+                    
+                    print(r.choice(phrases).format(cat.name))
+                    
+                    modifier += r.integer(1, 3)
+                    
+                elif curr in cat.likes and curr in known_likes:
+                    # Is liked, and knows it.
+                    phrases = ["Like always. this is so much fun for {}.", "Once again, {} loves this.", "This brings the same feeling of joy both to you and {}."]
+                    
+                    print(r.choice(phrases).format(cat.name))
+                    
+                    modifier += r.integer(1, 2)
+                    
+                elif curr in cat.passive and (not curr in known_passive):
+                    # Is passive, but doesn't know it.
+                    phrases = ["This seems very... normal for {}.", "{} doesn't mind this.", "{} shows no emotion whatsoever."]
+                    
+                    print(r.choice(phrases).format(cat.name))
+                    
+                elif curr in cat.passive and curr in known_passive:
+                    # Is passive, and knows it.
+                    phrases = ["Being mundane today are we?", "Like normal, this is normal.", "Once again, {} doesn't mind this.", "Like always, {} shows no emotion.", "As always, this is very normal for {}."]
+                    
+                    print(r.choice(phrases).format(cat.name))
+                    
+                print("(Press enter to continue) ", end = "")
+                input()
+                print("")
+                
+                
+                luck = luck + modifier
+                
+                if luck <= 0:
+                    print("In a freak petting accident, you manage to crush {}'s spine. It is not a nice look, and with a short breath and one final 'meow' before falling unconscious, you feel a sense of a not anger, but disapointment flood through you.")
+                    print("(Press enter to continue) ", end = "")
+                    input()
+                    
+                    print("")
+                    
+                    print("After an emergency trip to the vet, your cat hates your guts. Badly. It destests you.")
+                    print("(Press enter to continue) ", end = "")
+                    input()
+                    
+                    cat.health -= 3
+                    cat.mood -= 4
+                    
+                    continue
+                    
+                    
+                elif luck == 1:
+                    print("Instead of petting, you manage to slip and firmly press down on the cat's body, causing its legs to collapase, forcing it the ground. You get the sense it will be alright, but it hurt more emotionally.")
+                    print("(Press enter to continue) ", end = "")
+                    input()
+                    
+                    print("")
+                    
+                    print("After a while, it begins to recover. It isn't that hurt, but it probably hates you now.")
+                    print("(Press enter to continue) ", end = "")
+                    input()
+                    
+                    cat.health -= 2
+                    cat.mood -= 3
+                    
+                    continue
+                
+                    
+                    
+                elif luck in [2, 3, 4]:
+                    print("You pet a little too hard, and accidentally firmly slap it. {} quickly jumps away.".format(cat.name))
+                    print("(Press enter to continue) ", end = "")
+                    input()
+                    
+                    print("")
+                    
+                    print("After some time has passed, you get the idea that things weren't what they once were.")
+                    print("(Press enter to continue) ", end = "")
+                    input()
+                    
+                    cat.health -= 1
+                    cat.mood -= 2
+                    
+                    continue
+                    
+                    
+                elif luck == 5:
+                    print("The petting is OK, but a little hard at times. It doesn't mind it.")
+                    print("(Press enter to continue) ", end = "")
+                    input()
+                    
+                    cat.health -= 0
+                    cat.mood -= 0
+                    
+                    continue
+                    
+                    
+                elif luck in [6, 7]:
+                    print("The petting was pretty good, and you both enjoyed the experince.")
+                    print("(Press enter to continue) ", end = "")
+                    input()
+                    
+                    
+                    cat.health += 0
+                    cat.mood += 1 
+                    
+                    continue
+                    
+                    
+                    
+                elif luck == 8:
+                    print("That was some awesome petting. You especially rembered the part where you petted it very well. As well as being happier, the cat seems pyhsically and mentally healed.")
+                    print("(Press enter to continue) ", end = "")
+                    input()
+                    
+                    
+                    cat.health += 1
+                    cat.mood += 2
+                    
+                    continue
+                    
+                    
+                elif luck == 9:
+                    print("That was some PRO level petting. You shared an intimate moment together, and feel as if your previous relationship has now flowered into something wonderous and beautiful.")
+                    print("(Press enter to continue) ", end = "")
+                    input()
+                    
+                    
+                    cat.health += 2
+                    cat.mood += 3
+                    
+                    continue
+                    
+                    
+                elif luck >= 10:
+                    print("Before you even start petting, you know this is gonna be reaally, reaaallllyyy good petting. You feel energised, rivatalised, almost as if God himself has shone down a holy blessing of love into your fingertips.")
+                    print("(Press enter to continue) ", end = "")
+                    input()
+                    
+                    print("")
+                    
+                    print("You notice a distinct shift in the way {} looks and moves, almost as if the petting it recieved flowed through it like happiness and life flows through you upon seeing a loved one. It's truly amazing.".format(cat.name))
+                    print("(Press enter to continue) ", end = "")
+                    input()
+                    
+                    cat.health += 4
+                    cat.mood += 5
+                    
+                    continue
+                    
+                            
                 
             elif activity_number == 2:
-                pass
+                # Groom
+                print("You have chosen: Grooming")
+
                 
             elif activity_number == 3:
-                pass
+                # Clean
+                print("You have chosen: Cleaning")
+
                 
             elif activity_number == 4:
-                pass
+                # Walk
+                print("You have chosen: Walking")
+
                 
             elif activity_number == 5:
-                pass
+                # Go to Park
+                print("You have chosen: Going to the Park")
+
                 
             elif activity_number == 6:
-                pass
+                # Dress Up
+                print("You have chosen: Dressing Up")
+
                 
             elif activity_number == 7:
-                pass
+                # Brush
+                print("You have chosen: Brushing")
+
                 
             elif activity_number == 8:
-                pass
+                # Listen to Music
+                print("You have chosen: Listening to Music")
+
                 
             elif activity_number == 9:
-                pass
+                # Take a Catnap
+                print("You have chosen: Taking a Catnap")
+
                 
             elif activity_number == 10:
-                pass
+                # Bird Watch
+                print("You have chosen: Bird Watch")
+
                 
             elif activity_number == 11:
-                pass
+                # Travel
+                print("You have chosen: Travelling")
+
                 
             elif activity_number == 12:
-                pass
+                # Zen
+                print("You have chosen: Zenning")
+
                 
             elif activity_number == 13:
-                pass
+                # Go Camping
+                print("You have chosen: Camping")
+
                 
             elif activity_number == 14:
-                pass
+                # High-Five
+                print("You have chosen: High-Fiving")
+
                 
             elif activity_number == 15:
-                pass
+                # Watch TV
+                print("You have chosen: Watching TV")
+
                 
             elif activity_number == 16:
-                pass
+                # Go to Work
+                print("You have chosen: Going to Work")
+
                 
             elif activity_number == 17:
-                pass
+                # Chill Out
+                print("You have chosen: Chilling Out")
+
                 
             
             
